@@ -7,9 +7,8 @@ export class ServerRouter {
     return this;
   }
 
-  handle(req: Request): Promise<Response> {
-    const { url } = req;
-    const { pathname } = new URL(url);
+  private handle(req: Request): Promise<Response> {
+    const { pathname } = new URL(req.url);
 
     const sortedMap = [...this.routerMap].sort(([a], [b]) =>
       b.length - a.length
@@ -25,6 +24,10 @@ export class ServerRouter {
     }
 
     return Promise.resolve(new Response("Not Found", { status: 404 }));
+  }
+
+  get handler() {
+    return this.handle.bind(this);
   }
 }
 
