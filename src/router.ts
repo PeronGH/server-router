@@ -10,15 +10,15 @@ export class ServerRouter {
   private handle(req: Request) {
     const { pathname } = new URL(req.url);
 
-    const sortedMap = [...this.routerMap]
-      .sort(([a], [b]) => b.length - a.length);
+    const sortedPath = [...this.routerMap.keys()]
+      .sort((a, b) => b.length - a.length);
 
-    for (const [path, handler] of sortedMap) {
+    for (const path of sortedPath) {
       if (
         pathname === path ||
         (path.endsWith("/") && pathname.startsWith(path))
       ) {
-        return handler(req);
+        return this.routerMap.get(path)!(req);
       }
     }
 
