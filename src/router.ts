@@ -16,7 +16,7 @@ export class ServerRouter {
     );
 
     for (const [path, handler] of sortedMap) {
-      if (pathname.startsWith(path)) {
+      if (pathname === path) {
         return handler(req);
       }
     }
