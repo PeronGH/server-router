@@ -10,9 +10,8 @@ export class ServerRouter {
   private handle(req: Request) {
     const { pathname } = new URL(req.url);
 
-    const sortedMap = [...this.routerMap].sort(([a], [b]) =>
-      b.length - a.length
-    );
+    const sortedMap = [...this.routerMap]
+      .sort(([a], [b]) => b.length - a.length);
 
     for (const [path, handler] of sortedMap) {
       if (
