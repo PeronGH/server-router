@@ -6,7 +6,7 @@ Server Router is a minimalistic router for Deno. It is designed with web standar
 
 ```ts
 import { serve } from "https://deno.land/std/http/server.ts";
-import { ServerRouter } from "./mod.ts";
+import { ServerRouter } from "https://deno.land/x/server_router/mod.ts";
 
 const router = new ServerRouter();
 

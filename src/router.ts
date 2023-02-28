@@ -23,7 +23,7 @@ export class ServerRouter {
       }
     }
 
-    return Promise.resolve(new Response("Not Found", { status: 404 }));
+    return new Response("Not Found", { status: 404 });
   }
 
   get handler(): ServerHandler {
