@@ -16,7 +16,7 @@ export class ServerRouter {
     );
 
     for (const [path, handler] of sortedMap) {
-      if (pathname === path) {
+      if (matchPath(pathname, path)) {
         return handler(req);
       }
     }
@@ -26,3 +26,17 @@ export class ServerRouter {
 }
 
 export type ServerHandler = (req: Request) => Promise<Response>;
+
+function matchPath(path: string, pattern: string) {
+  const patternParts = pattern.split("/");
+  const pathParts = path.split("/");
+
+  if (patternParts.length !== pathParts.length) return false;
+
+  for (let i = 0; i < patternParts.length; i++) {
+    if (patternParts[i] === "*") continue;
+    if (patternParts[i] !== pathParts[i]) return false;
+  }
+
+  return true;
+}
