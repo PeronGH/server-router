@@ -7,7 +7,7 @@ export class ServerRouter {
     return this;
   }
 
-  private handle(req: Request): Promise<Response> {
+  private handle(req: Request) {
     const { pathname } = new URL(req.url);
 
     const sortedMap = [...this.routerMap].sort(([a], [b]) =>
@@ -26,9 +26,9 @@ export class ServerRouter {
     return Promise.resolve(new Response("Not Found", { status: 404 }));
   }
 
-  get handler() {
+  get handler(): ServerHandler {
     return this.handle.bind(this);
   }
 }
 
-export type ServerHandler = (req: Request) => Promise<Response>;
+export type ServerHandler = (req: Request) => Promise<Response> | Response;
