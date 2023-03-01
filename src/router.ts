@@ -11,6 +11,7 @@ export class ServerRouter {
     const { pathname: reqPath } = new URL(req.url);
 
     const sortedPath = [...this.routerMap.keys()]
+      .filter((p) => p.length <= reqPath.length)
       .sort((a, b) => b.length - a.length);
 
     for (const routerPath of sortedPath) {
