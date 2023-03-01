@@ -11,6 +11,7 @@ import { ServerRouter } from "https://deno.land/x/server_router/mod.ts";
 const router = new ServerRouter();
 
 router
+  .caseSensitive()
   .route("/", (_req) => new Response("Hello World!"))
   .route("/api/hi", (_req) => new Response("Hi, API!"));
 
