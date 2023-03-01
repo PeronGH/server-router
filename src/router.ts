@@ -8,17 +8,17 @@ export class ServerRouter {
   }
 
   private handle(req: Request) {
-    const { pathname } = new URL(req.url);
+    const { pathname: reqPath } = new URL(req.url);
 
     const sortedPath = [...this.routerMap.keys()]
       .sort((a, b) => b.length - a.length);
 
-    for (const path of sortedPath) {
+    for (const routerPath of sortedPath) {
       if (
-        pathname === path ||
-        (path.endsWith("/") && pathname.startsWith(path))
+        reqPath === routerPath ||
+        (routerPath.endsWith("/") && reqPath.startsWith(routerPath))
       ) {
-        return this.routerMap.get(path)!(req);
+        return this.routerMap.get(routerPath)!(req);
       }
     }
 
