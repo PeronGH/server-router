@@ -1,9 +1,15 @@
 export class ServerRouter {
   private routerMap: Map<string, ServerHandler> = new Map();
+  private isCaseSensitive = false;
 
   route(path: string, handler: ServerHandler) {
     if (!path.startsWith("/")) throw new Error("Path must start with /");
     this.routerMap.set(path, handler);
+    return this;
+  }
+
+  caseSensitive(enabled = true) {
+    this.isCaseSensitive = enabled;
     return this;
   }
 
@@ -16,14 +22,24 @@ export class ServerRouter {
 
     for (const routerPath of sortedPath) {
       if (
-        reqPath === routerPath ||
-        (routerPath.endsWith("/") && reqPath.startsWith(routerPath))
+        this.isCaseSensitive
+          ? ServerRouter.comparePath(routerPath, reqPath)
+          : ServerRouter.comparePath(
+            routerPath.toLowerCase(),
+            reqPath.toLowerCase(),
+          )
       ) {
         return this.routerMap.get(routerPath)!(req);
       }
     }
 
     return new Response("Not Found", { status: 404 });
+  }
+
+  private static comparePath(routerPath: string, reqPath: string) {
+    if (routerPath === reqPath) return true;
+    if (routerPath.endsWith("/") && reqPath.startsWith(routerPath)) return true;
+    return false;
   }
 
   get handler(): ServerHandler {

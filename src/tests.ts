@@ -21,7 +21,7 @@ Deno.test("test router", async () => {
 
   assertEquals(root, "Hello World!");
 
-  const api = await fetch(`${url}/api/`)
+  const api = await fetch(`${url}/ApI/`)
     .then((res) => res.text());
 
   assertEquals(api, "Some API");
@@ -30,4 +30,11 @@ Deno.test("test router", async () => {
     .then((res) => res.text());
 
   assertEquals(apiHi, "Hi, API!");
+
+  router.caseSensitive();
+
+  const apiHiCase = await fetch(`${url}/aPi/hI`)
+    .then((res) => res.text());
+
+  assertEquals(apiHiCase, "Hello World!"); // because "/" => "Hello World!" matches everything
 });
